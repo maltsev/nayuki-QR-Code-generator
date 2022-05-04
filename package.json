@@ -1,0 +1,35 @@
+{
+    "name": "nayuki-qr-code-generator",
+    "version": "1.8.0",
+    "main": "index.js",
+    "types": "index.d.ts",
+    "description": "QR code generator library created by @nayuki",
+    "scripts": {
+        "predownload:code": "rm -rf src/",
+        "download:code": "curl -L -o src.tar.gz https://github.com/nayuki/QR-Code-generator/tarball/v1.8.0",
+        "postdownload:code": "tar -xzf src.tar.gz && mv nayuki-QR-Code-generator-* src && rm src.tar.gz",
+        "prebuild": "rm -rf dest/ && mkdir -p dest/ && cp src/typescript-javascript/qrcodegen.ts dest/index.ts && echo 'export default qrcodegen' >> dest/index.ts",
+        "build": "tsc",
+        "postbuild": "rm dest/index.ts",
+        "package": "cp README.md dest/ && cp LICENSE dest/ && cat package.json | jq 'del(.devDependencies,.scripts)' > dest/package.json",
+        "publish": "npm publish dest/",
+        "start": "npm run download:code && npm run build && npm run package && npm run publish"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/maltsev/nayuki-QR-Code-generator.git"
+    },
+    "keywords": [
+        "QR",
+        "QRcode"
+    ],
+    "author": "Kirill Maltsev <maltsevkirill@gmail.com>",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/maltsev/nayuki-QR-Code-generator/issues"
+    },
+    "homepage": "https://github.com/maltsev/nayuki-QR-Code-generator#readme",
+    "devDependencies": {
+        "typescript": "^4.6.4"
+    }
+}
